@@ -28,7 +28,7 @@ rename(f'{LIB}/LiberationSans-Regular.ttf', 'Arial', 'Regular', 400, 'cl_arial.t
 rename(f'{LIB}/LiberationSans-Bold.ttf', 'Arial', 'Bold', 700, 'cl_arialbd.ttf')
 rename(f'{LIB}/LiberationSans-Italic.ttf', 'Arial', 'Italic', 400, 'cl_ariali.ttf')
 rename(f'{LIB}/LiberationSans-BoldItalic.ttf', 'Arial', 'Bold Italic', 700, 'cl_arialbi.ttf')
-rename(f'{F}/ArchivoBlack-Regular.ttf', 'Arial', 'Black', 900, 'cl_ariblk.ttf')
+rename(f'{F}/ArchivoBlack-Regular.ttf', 'Arial', 'Black', 800, 'cl_ariblk.ttf')  # 800 so fontconfig picks it for both 800 and 900 (Windows uses Arial Black for both)
 rename(f'{F}/ComicNeue-Regular.ttf', 'Comic Sans MS', 'Regular', 400, 'cl_comic.ttf')
 rename(f'{F}/ComicNeue-Bold.ttf', 'Comic Sans MS', 'Bold', 700, 'cl_comicbd.ttf')
 rename(f'{F}/Gelasio-Regular.ttf', 'Georgia', 'Regular', 400, 'cl_georgia.ttf')
