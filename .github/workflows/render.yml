@@ -1,0 +1,74 @@
+name: render
+on:
+  push:
+    paths: ['job/job.json']
+  workflow_dispatch:
+concurrency:
+  group: render
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      parts: ${{ steps.p.outputs.parts }}
+      n: ${{ steps.p.outputs.n }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: job/job.json, sparse-checkout-cone-mode: false }
+      - id: p
+        run: |
+          N=$(python3 -c "import json;print(json.load(open('job/job.json'))['parts'])")
+          echo "n=$N" >> $GITHUB_OUTPUT
+          echo "parts=$(python3 -c "print(list(range($N)))")" >> $GITHUB_OUTPUT
+
+  part:
+    needs: plan
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: true
+      matrix:
+        k: ${{ fromJson(needs.plan.outputs.parts) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Install tools
+        run: |
+          pip install -q playwright==1.65.2
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y -q ffmpeg fonts-liberation
+          mkdir -p ~/.fonts ~/.config/fontconfig
+          curl -sfL -o ~/.fonts/Gelasio.ttf "https://github.com/google/fonts/raw/main/ofl/gelasio/Gelasio%5Bwght%5D.ttf" || true
+          curl -sfL -o ~/.fonts/Gelasio-Italic.ttf "https://github.com/google/fonts/raw/main/ofl/gelasio/Gelasio-Italic%5Bwght%5D.ttf" || true
+          cp runner/fonts.conf ~/.config/fontconfig/fonts.conf
+          fc-cache -f >/dev/null
+          fc-match sans-serif; fc-match Georgia
+      - name: Render part ${{ matrix.k }}
+        run: python runner/render_part.py ${{ matrix.k }} ${{ needs.plan.outputs.n }} part_$(printf %03d ${{ matrix.k }}).mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part-${{ matrix.k }}
+          path: part_*.mp4
+          retention-days: 1
+          compression-level: 0
+
+  join:
+    needs: part
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { pattern: 'part-*', merge-multiple: true, path: parts }
+      - name: Join parts
+        run: |
+          sudo apt-get install -y -q ffmpeg
+          ls parts/*.mp4 | sort | sed "s/^/file '/; s/$/'/" > list.txt
+          cat list.txt
+          ffmpeg -v error -y -f concat -safe 0 -i list.txt -c copy video_only.mp4
+          ls -la video_only.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video_only
+          path: video_only.mp4
+          retention-days: 1
+          compression-level: 0
