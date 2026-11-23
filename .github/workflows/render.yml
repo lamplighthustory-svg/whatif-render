@@ -42,11 +42,10 @@ jobs:
           pip install -q -r runner/requirements.txt
           python -m playwright install chromium
           mkdir -p ~/.fonts ~/.config/fontconfig
-          curl -sfL -o ~/.fonts/Gelasio.ttf "https://github.com/google/fonts/raw/main/ofl/gelasio/Gelasio%5Bwght%5D.ttf" || true
-          curl -sfL -o ~/.fonts/Gelasio-Italic.ttf "https://github.com/google/fonts/raw/main/ofl/gelasio/Gelasio-Italic%5Bwght%5D.ttf" || true
+          python runner/make_fonts.py
           cp runner/fonts.conf ~/.config/fontconfig/fonts.conf
           fc-cache -f >/dev/null
-          fc-match sans-serif; fc-match Georgia
+          for q in sans-serif "Arial:weight=210" "Arial:bold" Inter "Comic Sans MS:bold" Georgia monospace; do echo "$q -> $(fc-match "$q")"; done
       - name: Render part ${{ matrix.k }}
         timeout-minutes: 60
         run: python runner/render_part.py ${{ matrix.k }} ${{ needs.plan.outputs.n }} part_$(printf %03d ${{ matrix.k }}).mp4
