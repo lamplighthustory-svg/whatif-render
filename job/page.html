@@ -3070,7 +3070,7 @@ const busDefs = () => `<defs>
 <linearGradient id="bsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070B14"/><stop offset="1" stop-color="#1B2433"/></linearGradient>
 </defs>`;
 const busDoor = (t, o) => o.doorT != null ? clamp((t - o.doorT) / 0.8, 0, 1) * (o.doorClose != null ? clamp((o.doorClose + 0.8 - t) / 0.8, 0, 1) : 1) : clamp(o.door || 0, 0, 1);
-const busLight = (t, o) => { let L = 1 - (o.dark || 0); if (o.flick && t >= o.flick[0] && t < o.flick[1]) L *= hash(Math.floor(t * 18)) > 0.45 ? 1 : 0.15; return L; };
+const busLight = (t, o) => { let L = 1 - (o.lightsOut || 0); if (o.flick && t >= o.flick[0] && t < o.flick[1]) L *= hash(Math.floor(t * 18)) > 0.45 ? 1 : 0.15; return L; };
 const quad = (a, b, c, d, fill, extra = '') => `<path d="M${a[0]} ${a[1]} L${b[0]} ${b[1]} L${c[0]} ${c[1]} L${d[0]} ${d[1]} Z" fill="${fill}" ${extra}/>`;
 
 SETS.busNight = (t, o) => {
@@ -3249,7 +3249,7 @@ SETS.insB = (t, o) => {
     for (let i = 0; i < 16; i++) s += `<line x1="0" y1="${480 + i * 28}" x2="1600" y2="${480 + i * 28}" stroke="#2A2926" stroke-width="5"/>`;
     if (o.slide) { const sx = ((t - t0) * 260) % 2200 - 400; s += `<path d="M${sx} 790 Q${sx + 200} 730 ${sx + 420} 800" stroke="#000" stroke-width="80" fill="none" opacity="0.75" filter="url(#b10)"/>`; }
     for (const fx of [620, 980]) s += `<g transform="translate(${fx} ${720 - 300 * easeOut(lk)})"><rect x="-30" y="-400" width="60" height="400" fill="#16181C"/><path d="M-70 0 Q-80 -60 -20 -70 L60 -70 Q120 -60 130 0 Z" fill="#E8E2D4"/><rect x="-70" y="-10" width="200" height="22" rx="10" fill="#C8463A"/></g>`;
-    if (o.dark) s += `<rect width="1600" height="900" fill="#05070B" opacity="0.6"/><rect width="1600" height="900" fill="#3A5A86" opacity="0.08"/>`;
+    if (o.lightsOut) s += `<rect width="1600" height="900" fill="#05070B" opacity="0.6"/><rect width="1600" height="900" fill="#3A5A86" opacity="0.08"/>`;
     s += vig;
   }
   if (k === 'volcano') {

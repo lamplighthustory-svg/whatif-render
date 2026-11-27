@@ -92,7 +92,7 @@ if a.no_mux:
 if full:
     dst = os.path.join(CH, 'Final Videos'); os.makedirs(dst, exist_ok=True); dst = os.path.join(dst, cfg['final_name'])
     run('ffmpeg', '-v', 'error', '-y', '-i', vid, '-i', mix, '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
-        '-af', 'volume=-0.6dB,alimiter=limit=0.75:level=disabled', '-c:a', 'aac', '-b:a', '192k', '-shortest', dst)
+        '-af', 'volume=-0.6dB,alimiter=limit=0.62:level=disabled', '-c:a', 'aac', '-b:a', '192k', '-shortest', dst)
 else:
     dst = os.path.join(EP, 'cloud_test.mp4')
     if os.path.exists(mix):
