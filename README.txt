@@ -12,3 +12,10 @@ Chalane ka tareeka (episode folder mein cloud_cfg.json hona chahiye, rain\cloud_
 
 Mix (mix_full.wav) pehle laptop par ban jaana chahiye, phir cloud render.
 Repo public hai: GitHub par koi bhi engine ka code dekh sakta hai.
+
+FREE VOICES (Supertonic 3, GitHub par, koi key / daily limit nahi)
+  py voice_go.py rain --demo                  -> ek line 10 aawazon mein (F1-F5 ladki, M1-M5 ladka)
+  py voice_go.py rain --voices Narrator=M2,Max=M1,Lily=F2
+                                              -> lines.py ki saari lines, Episodes\rain\voices_free\<id>.wav
+  py voice_go.py rain --speakers Dad,Mom      -> sirf in characters ki lines
+185 lines (~12 min speech) ~2 minute mein. Emotion Gemini jitna nahi; [brackets] wale notes hata diye jaate hain.
