@@ -26,7 +26,12 @@ ap = argparse.ArgumentParser()
 ap.add_argument('episode'); ap.add_argument('--t0', type=float); ap.add_argument('--t1', type=float)
 ap.add_argument('--parts', type=int, default=20); ap.add_argument('--res', default='1080')
 ap.add_argument('--prep-only', action='store_true')
-ap.add_argument('--no-mux', action='store_true', help='only download the video, add the audio later (e.g. while mix.py still runs)')
+GRADES = {  # cinematic looks, see Episodes\rain\grade_options.jpg
+    'A': 'eq=contrast=1.06:saturation=0.95,colorbalance=rs=-0.04:bs=0.05:rh=0.05:bh=-0.04,vignette=angle=PI/6',
+    'B': 'eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5,noise=alls=5:allf=t',
+    'C': 'eq=contrast=1.15:saturation=0.8:gamma=0.95,colorbalance=rs=-0.05:bs=0.03:rm=0.03:bm=-0.02:rh=0.06:bh=-0.06,curves=preset=medium_contrast,vignette=angle=PI/4.5,noise=alls=7:allf=t'}
+ap.add_argument('--grade', help='cinematic look A/B/C (or cfg "grade")')
+ap.add_argument('--no-mux',action='store_true', help='only download the video, add the audio later (e.g. while mix.py still runs)')
 a = ap.parse_args()
 EP = os.path.abspath(a.episode if os.path.isabs(a.episode) or os.path.exists(a.episode) else os.path.join(CH, 'Episodes', a.episode))
 cfg = json.load(open(os.path.join(EP, 'cloud_cfg.json'), encoding='utf-8'))
@@ -49,7 +54,8 @@ JOB = os.path.join(HERE, 'job'); os.makedirs(JOB, exist_ok=True)
 open(os.path.join(JOB, 'page.html'), 'w', encoding='utf-8').write(html)
 json.dump(d, open(os.path.join(JOB, 'data.json'), 'w', encoding='utf-8'), separators=(',', ':'))
 stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-json.dump({'episode': os.path.basename(EP), 't0': t0, 't1': t1, 'parts': parts, 'res': a.res, 'stamp': stamp},
+json.dump({'episode': os.path.basename(EP), 't0': t0, 't1': t1, 'parts': parts, 'res': a.res, 'stamp': stamp,
+           'grade': GRADES.get((a.grade or cfg.get('grade') or '').upper(), '')},
           open(os.path.join(JOB, 'job.json'), 'w', encoding='utf-8'), indent=1)
 log(f'job ready: {os.path.basename(EP)} {t0:.2f}-{t1:.2f}s, {parts} parts, {a.res}p')
 if a.prep_only: sys.exit(0)

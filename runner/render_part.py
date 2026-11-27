@@ -19,7 +19,8 @@ print(f'part {k}/{n}: {len(mine)} frames ({a}..{b})', flush=True)
 
 W, H = (1280, 720) if str(job.get('res')) == '720' else (1920, 1080)
 import imageio_ffmpeg
-ff = subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(),'-v', 'error', '-y', '-f', 'image2pipe', '-c:v', 'mjpeg', '-r', str(fps), '-i', '-',
+grade = ['-vf', job['grade']] if job.get('grade') else []  # optional ffmpeg color grade (cinematic look)
+ff = subprocess.Popen([imageio_ffmpeg.get_ffmpeg_exe(), '-v', 'error', '-y', '-f', 'image2pipe', '-c:v', 'mjpeg', '-r', str(fps), '-i', '-', *grade,
                        '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p', out], stdin=subprocess.PIPE)
 st = time.time()
 with sync_playwright() as p:
