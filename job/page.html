@@ -3144,11 +3144,11 @@ SETS.busNight = (t, o) => {
   // background kids (heads above seat backs): [side, row]
   for (const [side, row, col] of (o.kids || [])) { const f = fs[row], P = busP(f), x = vx + side * (P.aisle + (P.wall - P.aisle) * 0.45), y = P.floor - 300 * f - 34 * f; s += `<g opacity="0.92"><circle cx="${x}" cy="${y}" r="${40 * f}" fill="#16181C"/><circle cx="${x - 12 * f}" cy="${y - 4 * f}" r="${6 * f}" fill="#fff"/><circle cx="${x + 12 * f}" cy="${y - 4 * f}" r="${6 * f}" fill="#fff"/><rect x="${x - 50 * f}" y="${y + 36 * f}" width="${100 * f}" height="${30 * f}" rx="${12 * f}" fill="${col || '#5A6E86'}"/></g>`; }
   // light: warm glow from lamps, blue cold from windows, flicker/dark
-  s += `<rect width="1600" height="900" fill="#0A0C12" opacity="${(1 - L) * 0.62 + 0.30}"/>`;
+  s += `<rect width="1600" height="900" fill="#0A0C12" opacity="${(1 - L) * 0.48 + 0.30}"/>`;
   s += `<rect width="1600" height="900" fill="url(#bsLamp)" opacity="${0.28 * L}"/>`;
   s += `<rect width="1600" height="900" fill="#3A2A10" opacity="${0.10 * L}"/>`;
   s += `<rect width="1600" height="900" fill="url(#bsVig)"/>`;
-  if (L < 0.5) s += `<rect width="1600" height="900" fill="#020306" opacity="${(0.5 - L) * 0.6}"/>`;
+  if (L < 0.5) s += `<rect width="1600" height="900" fill="#020306" opacity="${(0.5 - L) * 0.3}"/><rect width="1600" height="900" fill="#3A5A86" opacity="${(0.5 - L) * 0.16}"/>`;
   if (L < 0.5) s += `<rect width="1600" height="900" fill="#2A4466" opacity="${0.16 * (1 - L)}"/>`;
   return s;
 };
@@ -3190,7 +3190,7 @@ SETS.hollowRoad = (t, o) => {
     for (const tx of [bx + 160, bx + bw - 160]) s += `<circle cx="${tx}" cy="${by + bh + 8}" r="48" fill="#121315"/><circle cx="${tx}" cy="${by + bh + 8}" r="20" fill="#3A3D42"/>`;
   }
   // woman silhouette in fog (never clear)
-  if (o.figure) s += `<ellipse cx="1420" cy="640" rx="190" ry="230" fill="#8FA2B4" opacity="${0.22 * o.figure}" filter="url(#b20)"/>`;
+  if (o.figure) s += `<ellipse cx="1420" cy="640" rx="190" ry="230" fill="#8FA2B4" opacity="${0.36 * o.figure}" filter="url(#b20)"/>`;
   if (o.figure) s += `<g opacity="${o.figure * (0.55 + 0.1 * Math.sin(t * 1.7))}" filter="url(#b6)"><ellipse cx="1420" cy="560" rx="24" ry="27" fill="#05070B"/><path d="M1388 590 Q1420 576 1452 590 L1468 760 L1372 760 Z" fill="#05070B"/><path d="M1390 612 L1360 560" stroke="#05070B" stroke-width="11" stroke-linecap="round"/></g>`;
   // fog bands
   for (let i = 0; i < 5; i++) { const y = 520 + i * 70, x = ((t * (12 + i * 4) + i * 300) % 2000) - 400; s += `<ellipse cx="${x + 600}" cy="${y}" rx="900" ry="${40 + i * 8}" fill="#8A9AAA" opacity="${0.07 + 0.02 * i}" filter="url(#b20)"/>`; }
@@ -3249,7 +3249,7 @@ SETS.insB = (t, o) => {
     for (let i = 0; i < 16; i++) s += `<line x1="0" y1="${480 + i * 28}" x2="1600" y2="${480 + i * 28}" stroke="#2A2926" stroke-width="5"/>`;
     if (o.slide) { const sx = ((t - t0) * 260) % 2200 - 400; s += `<path d="M${sx} 790 Q${sx + 200} 730 ${sx + 420} 800" stroke="#000" stroke-width="80" fill="none" opacity="0.75" filter="url(#b10)"/>`; }
     for (const fx of [620, 980]) s += `<g transform="translate(${fx} ${720 - 300 * easeOut(lk)})"><rect x="-30" y="-400" width="60" height="400" fill="#16181C"/><path d="M-70 0 Q-80 -60 -20 -70 L60 -70 Q120 -60 130 0 Z" fill="#E8E2D4"/><rect x="-70" y="-10" width="200" height="22" rx="10" fill="#C8463A"/></g>`;
-    if (o.dark) s += `<rect width="1600" height="900" fill="#05070B" opacity="0.8"/>`;
+    if (o.dark) s += `<rect width="1600" height="900" fill="#05070B" opacity="0.6"/><rect width="1600" height="900" fill="#3A5A86" opacity="0.08"/>`;
     s += vig;
   }
   if (k === 'volcano') {
@@ -3269,6 +3269,44 @@ EXT_SCREEN = function (sh, t, o) {
   if (typeof DATA !== 'undefined' && DATA.caps && !sh.noCaps) {
     for (const [a, b, txt] of DATA.caps) if (t >= a && t < b) { s += `<text x="800" y="828" text-anchor="middle" font-family="Arial" font-weight="900" font-size="52" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round">${txt}</text>`; break; }
   }
+  return s;
+};
+
+// ---------- blueHouse: night street seen from the bus (o.frame = bus window frame), Max's blue house ----------
+// opts: wave (mom silhouette waving in the window), boy (wet boy on the porch), car (mom's car in the driveway, o.honk = t of two honks),
+//       real (warm, safe version), slide (house slides away: px/s), side 'left'|'right' (only the label of the look)
+SETS.blueHouse = (t, o) => {
+  let s = busDefs() + `<rect width="1600" height="900" fill="url(#bsSky)"/>`;
+  const dx = o.slide ? -(t - (o.t0 || 0)) * o.slide : 0;
+  s += `<g transform="translate(${dx} 0)">`;
+  for (let i = -1; i < 5; i++) { if (i === 1) continue; const x = 80 + i * 380; s += `<path d="M${x} 430 L${x + 150} 330 L${x + 300} 430 Z" fill="#141A24"/><rect x="${x + 20}" y="430" width="260" height="210" fill="#1A2130"/><rect x="${x + 60}" y="480" width="60" height="60" fill="${hash(i + 3) > 0.5 ? '#3A3A2A' : '#141824'}"/>`; }
+  // blue house
+  const hx = 460; s += `<path d="M${hx - 30} 400 L${hx + 210} 250 L${hx + 450} 400 Z" fill="#2A3550"/><rect x="${hx}" y="400" width="420" height="250" fill="${o.real ? '#5A7AB0' : '#3E5A8A'}"/>`;
+  for (let j = 0; j < 10; j++) s += `<line x1="${hx}" y1="${410 + j * 24}" x2="${hx + 420}" y2="${410 + j * 24}" stroke="#2E4670" stroke-width="2"/>`;
+  s += `<rect x="${hx + 40}" y="440" width="130" height="110" fill="#FFD98A"/><rect x="${hx + 40}" y="440" width="130" height="110" fill="none" stroke="#E8E2D4" stroke-width="8"/><line x1="${hx + 105}" y1="440" x2="${hx + 105}" y2="550" stroke="#E8E2D4" stroke-width="5"/>`;
+  if (o.wave) { const a = Math.sin(t * 5) * 35; s += `<g transform="translate(${hx + 105} 520)"><circle cx="0" cy="-30" r="20" fill="#16181C"/><rect x="-22" y="-10" width="44" height="40" fill="#16181C"/><line x1="16" y1="-6" x2="${16 + 40 * Math.cos((-60 + a) * Math.PI / 180)}" y2="${-6 + 40 * Math.sin((-60 + a) * Math.PI / 180)}" stroke="#16181C" stroke-width="9" stroke-linecap="round"/></g>`; }
+  s += `<rect x="${hx + 260}" y="470" width="80" height="180" fill="#6A4A2E"/><circle cx="${hx + 326}" cy="560" r="5" fill="#D8B45A"/><rect x="${hx + 230}" y="640" width="140" height="18" fill="#8A8A86"/><rect x="${hx + 215}" y="658" width="170" height="16" fill="#7A7A76"/>`;
+  s += `<rect x="${hx + 220}" y="440" width="10" height="200" fill="#E8E2D4"/><rect x="${hx + 370}" y="440" width="10" height="200" fill="#E8E2D4"/><rect x="${hx + 210}" y="430" width="180" height="14" fill="#E8E2D4"/><circle cx="${hx + 300}" cy="455" r="8" fill="#FFE3A3"/>`;
+  if (o.boy) s += `<g opacity="0.95"><circle cx="${hx + 300}" cy="560" r="22" fill="#0C0E12"/><circle cx="${hx + 292}" cy="556" r="4" fill="#fff"/><circle cx="${hx + 308}" cy="556" r="4" fill="#fff"/><rect x="${hx + 280}" y="582" width="40" height="58" rx="8" fill="#5A6670"/><line x1="${hx + 285}" y1="640" x2="${hx + 285}" y2="${640 + 4 * Math.abs(Math.sin(t * 3))}" stroke="#9FB4CC" stroke-width="2"/></g>`;
+  if (o.car) { const hk = o.honk != null && ((t > o.honk && t < o.honk + 0.25) || (t > o.honk + 0.45 && t < o.honk + 0.7)); s += `<g transform="translate(${hx + 520} 600)"><rect x="0" y="0" width="300" height="70" rx="20" fill="#7A2A2A"/><path d="M40 0 L80 -45 L220 -45 L260 0 Z" fill="#6A2424"/><path d="M90 -38 L130 -38 L130 -4 L60 -4 Z" fill="#FFE3A3" opacity="0.6"/><circle cx="70" cy="72" r="26" fill="#121315"/><circle cx="235" cy="72" r="26" fill="#121315"/><circle cx="292" cy="30" r="10" fill="#FFF2C4"/>${hk ? `<path d="M300 30 L520 -20 L520 90 Z" fill="#FFF2C4" opacity="0.25"/>` : `<path d="M300 30 L520 0 L520 70 Z" fill="#FFF2C4" opacity="0.10"/>`}</g>`; }
+  s += `<rect x="0" y="650" width="2400" height="250" fill="#1A1E24"/><rect x="0" y="650" width="2400" height="8" fill="#3A4048"/>`;
+  s += `<rect x="${hx + 140}" y="600" width="14" height="50" fill="#20252B"/><rect x="${hx + 120}" y="588" width="54" height="22" rx="4" fill="#5A6A80"/><text x="${hx + 147}" y="604" text-anchor="middle" font-family="Arial" font-weight="900" font-size="11" fill="#fff">1408</text>`;
+  s += `</g>`;
+  for (let i = 0; i < 4; i++) { const y = 560 + i * 60, x = ((t * 14 + i * 400) % 2000) - 400; s += `<ellipse cx="${x + 600}" cy="${y}" rx="800" ry="40" fill="#8A9AAA" opacity="${o.real ? 0.03 : 0.07}" filter="url(#b20)"/>`; }
+  if (o.real) s += `<rect width="1600" height="900" fill="#FFB860" opacity="0.06"/>`;
+  if (o.frame) s += `<path d="M0 0 H1600 V900 H0 Z M140 110 H1460 Q1500 110 1500 150 V700 Q1500 740 1460 740 H140 Q100 740 100 700 V150 Q100 110 140 110 Z" fill="#CFC4A6" fill-rule="evenodd"/><rect x="100" y="740" width="1400" height="40" fill="#9A9076"/><line x1="800" y1="110" x2="800" y2="740" stroke="#9A9076" stroke-width="24"/><rect width="1600" height="900" fill="#0A0C12" opacity="0.25"/>` + [...Array(14)].map((_, i) => `<circle cx="${150 + hash(i * 3) * 1300}" cy="${130 + hash(i * 7) * 580}" r="${3 + 4 * hash(i)}" fill="#B8CCE0" opacity="0.4"/>`).join('');
+  s += `<rect width="1600" height="900" fill="url(#bsVig)"/>`;
+  return s;
+};
+
+// ---------- realStop: a real bus stop at night (sign + street lamp + houses) ----------
+SETS.realStop = (t, o) => {
+  let s = busDefs() + `<rect width="1600" height="900" fill="url(#bsSky)"/>`;
+  for (let i = 0; i < 6; i++) { const x = i * 290 - 40; s += `<path d="M${x} 470 L${x + 120} 390 L${x + 240} 470 Z" fill="#141A24"/><rect x="${x + 15}" y="470" width="210" height="190" fill="#1A2130"/><rect x="${x + 50}" y="510" width="50" height="50" fill="${hash(i) > 0.4 ? '#FFD98A' : '#141824'}" opacity="0.8"/>`; }
+  s += `<rect x="0" y="660" width="1600" height="240" fill="#1A1E24"/><rect x="0" y="650" width="1600" height="14" fill="#3A4048"/>`;
+  s += `<rect x="1180" y="300" width="10" height="360" fill="#20252B"/><ellipse cx="1185" cy="300" rx="28" ry="10" fill="#FFE3A3"/><path d="M1185 305 L1060 660 L1310 660 Z" fill="#FFE3A3" opacity="0.12"/>`;
+  s += `<rect x="1280" y="420" width="8" height="240" fill="#9AA0A6"/><rect x="1230" y="420" width="110" height="80" rx="6" fill="#2F5E8A"/><text x="1285" y="452" text-anchor="middle" font-family="Arial" font-weight="900" font-size="18" fill="#fff">BUS STOP</text><text x="1285" y="480" text-anchor="middle" font-family="Arial" font-weight="800" font-size="16" fill="#FFD640">${o.name || 'ELM & 2ND'}</text>`;
+  s += `<rect width="1600" height="900" fill="url(#bsVig)"/>`;
   return s;
 };
 </script></body></html>

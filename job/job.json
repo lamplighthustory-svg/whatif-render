@@ -1,9 +1,9 @@
 {
  "episode": "bus",
  "t0": 0.0,
- "t1": 131.7,
- "parts": 12,
+ "t1": 533.7497916666666,
+ "parts": 20,
  "res": "1080",
- "stamp": "20261127-144436",
+ "stamp": "20261127-154129",
  "grade": "eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5"
 }
