@@ -28,7 +28,7 @@ ap.add_argument('--parts', type=int, default=20); ap.add_argument('--res', defau
 ap.add_argument('--prep-only', action='store_true')
 GRADES = {  # cinematic looks, see Episodes\rain\grade_options.jpg
     'A': 'eq=contrast=1.06:saturation=0.95,colorbalance=rs=-0.04:bs=0.05:rh=0.05:bh=-0.04,vignette=angle=PI/6',
-    'B': 'eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5,noise=alls=5:allf=t',
+    'B': 'eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5',  # no grain: grain made the video 20x bigger (4.4 GB)
     'C': 'eq=contrast=1.15:saturation=0.8:gamma=0.95,colorbalance=rs=-0.05:bs=0.03:rm=0.03:bm=-0.02:rh=0.06:bh=-0.06,curves=preset=medium_contrast,vignette=angle=PI/4.5,noise=alls=7:allf=t'}
 ap.add_argument('--grade', help='cinematic look A/B/C (or cfg "grade")')
 ap.add_argument('--no-mux',action='store_true', help='only download the video, add the audio later (e.g. while mix.py still runs)')

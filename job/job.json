@@ -4,6 +4,6 @@
  "t1": 874.1043333333333,
  "parts": 20,
  "res": "1080",
- "stamp": "20261127-104729",
- "grade": "eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5,noise=alls=5:allf=t"
+ "stamp": "20261127-110513",
+ "grade": "eq=contrast=1.12:saturation=0.88:gamma=0.97,colorbalance=rs=-0.08:gs=0.02:bs=0.09:rh=0.08:gh=0.02:bh=-0.07,vignette=angle=PI/5"
 }
