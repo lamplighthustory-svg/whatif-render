@@ -3045,4 +3045,230 @@ EXT_SCREEN = function (sh, t, o) {
   if (o.alarm) s += `<rect width="1600" height="900" fill="#FF2A1A" opacity="${Math.max(0, Math.sin(t * 8)) * 0.22}"/>`;
   return s;
 };
+
+// ifv_bus.js - episode 10 "If Your School Bus Ever Stops Where There's No Stop". Load after ifv_rain.js.
+// Sets: busNight (school bus interior at night, aisle perspective; o.rev = looking to the back seat),
+//       hollowRoad (exterior night road, school bus with door open, fog, one lamp).
+// busNight opts: door (0..1 open, front right), dark (0..1 lights out), flick [t0,t1], fogOut (door shows fog),
+//                poster (MISSING poster visible, rev view), puddle (seat index), kids [[side,row,col],...] background kids.
+// hollowRoad opts: door (0..1), figure (woman silhouette in fog, 0..1 opacity), noBus, cam ('side'|'front'), lampFlick.
+Object.assign(LOOK, {
+  tess: { outfit: 'raincoat', coat: '#4F7F86', coatD: '#3A6268', sleeve: '#4F7F86' },
+  driverB: { outfit: 'longcoat', coat: '#3B3F47', sleeve: '#3B3F47', old: true },
+  wetBoy: { outfit: 'longcoat', coat: '#5A6670', sleeve: '#5A6670' },
+  owen: { outfit: 'longcoat', coat: '#B5563A', sleeve: '#B5563A' },
+});
+const BUS = { vx: 800, vy: 360 };
+const busP = f => ({ floor: BUS.vy + 540 * f, ceil: BUS.vy - 430 * f, wall: 840 * f, aisle: 120 * f });
+const busDefs = () => `<defs>
+<linearGradient id="bsCeil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9E1C8"/><stop offset="1" stop-color="#B9AF94"/></linearGradient>
+<linearGradient id="bsWinN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1626"/><stop offset="1" stop-color="#1F2C40"/></linearGradient>
+<linearGradient id="bsFog" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5E6E7E"/><stop offset="1" stop-color="#2A3340"/></linearGradient>
+<radialGradient id="bsGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFE3A3" stop-opacity="0.55"/><stop offset="1" stop-color="#FFE3A3" stop-opacity="0"/></radialGradient>
+<radialGradient id="bsLamp" cx="50%" cy="0%" r="100%"><stop offset="0" stop-color="#FFE9B0" stop-opacity="0.75"/><stop offset="1" stop-color="#FFE9B0" stop-opacity="0"/></radialGradient>
+<radialGradient id="bsVig" cx="50%" cy="45%" r="70%"><stop offset="0.45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+<linearGradient id="bsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070B14"/><stop offset="1" stop-color="#1B2433"/></linearGradient>
+</defs>`;
+const busDoor = (t, o) => o.doorT != null ? clamp((t - o.doorT) / 0.8, 0, 1) * (o.doorClose != null ? clamp((o.doorClose + 0.8 - t) / 0.8, 0, 1) : 1) : clamp(o.door || 0, 0, 1);
+const busLight = (t, o) => { let L = 1 - (o.dark || 0); if (o.flick && t >= o.flick[0] && t < o.flick[1]) L *= hash(Math.floor(t * 18)) > 0.45 ? 1 : 0.15; return L; };
+const quad = (a, b, c, d, fill, extra = '') => `<path d="M${a[0]} ${a[1]} L${b[0]} ${b[1]} L${c[0]} ${c[1]} L${d[0]} ${d[1]} Z" fill="${fill}" ${extra}/>`;
+
+SETS.busNight = (t, o) => {
+  const L = busLight(t, o), vx = BUS.vx;
+  let s = busDefs() + `<rect width="1600" height="900" fill="#2A2620"/>`;
+  const fs = [1.25, 1.0, 0.8, 0.64, 0.51, 0.41, 0.33, 0.265, 0.21];
+  const fEnd = 0.19, E = busP(fEnd);
+  // end wall: front (windshield, mirror, door) or back (rear window, poster, back seat)
+  const ex0 = vx - E.wall, ex1 = vx + E.wall;
+  s += `<rect x="${ex0}" y="${E.ceil}" width="${ex1 - ex0}" height="${E.floor - E.ceil}" fill="#C9BE9E"/>`;
+  if (!o.rev) {
+    s += `<rect x="${ex0 + 10}" y="${E.ceil + 14}" width="${ex1 - ex0 - 20}" height="${(E.floor - E.ceil) * 0.42}" rx="6" fill="url(#bsWinN)"/>`;
+    for (let i = 0; i < 16; i++) { const rx = ex0 + 20 + hash(i * 3.1) * (ex1 - ex0 - 40), ry = E.ceil + 20 + ((t * 60 + hash(i) * 80) % ((E.floor - E.ceil) * 0.38)); s += `<line x1="${rx}" y1="${ry}" x2="${rx - 3}" y2="${ry + 10}" stroke="#9FB4CC" stroke-width="1.5" opacity="0.5"/>`; }
+    s += `<ellipse cx="${vx - 60}" cy="${E.ceil + 70}" rx="70" ry="22" fill="#FFF2C4" opacity="0.12"/><ellipse cx="${vx + 60}" cy="${E.ceil + 70}" rx="70" ry="22" fill="#FFF2C4" opacity="0.12"/>`;
+    s += `<rect x="${vx - 70}" y="${E.ceil + 6}" width="140" height="22" rx="8" fill="#20242A"/><rect x="${vx - 64}" y="${E.ceil + 10}" width="128" height="14" rx="6" fill="#55657A"/>`; // big mirror
+    s += `<rect x="${ex0 + 6}" y="${E.ceil + (E.floor - E.ceil) * 0.46}" width="${(ex1 - ex0) * 0.55}" height="22" fill="#2B2F35"/>`; // dashboard
+    // folding door (front right)
+    const dx = ex1 - 92, dw = 82, dy0 = E.ceil + 12, dy1 = E.floor - 2, op = busDoor(t, o);
+    s += `<rect x="${dx}" y="${dy0}" width="${dw}" height="${dy1 - dy0}" fill="${o.fogOut ? 'url(#bsFog)' : '#0E1420'}"/>`;
+    if (o.fogOut && op > 0) { s += `<rect x="${dx}" y="${dy0}" width="${dw}" height="${dy1 - dy0}" fill="#AFC0CC" opacity="${0.25 * op + 0.05 * Math.sin(t * 1.3)}"/>`; if (o.figure) s += `<g opacity="${o.figure * op * 0.7}" filter="url(#b3)"><ellipse cx="${dx + dw * 0.55}" cy="${dy0 + 44}" rx="9" ry="10" fill="#141922"/><path d="M${dx + dw * 0.55 - 12} ${dy0 + 56} Q${dx + dw * 0.55} ${dy0 + 50} ${dx + dw * 0.55 + 12} ${dy0 + 56} L${dx + dw * 0.55 + 16} ${dy1 - 8} L${dx + dw * 0.55 - 16} ${dy1 - 8} Z" fill="#141922"/></g>`; }
+    const pw = dw / 2 * (1 - op * 0.82);
+    s += `<rect x="${dx}" y="${dy0}" width="${pw}" height="${dy1 - dy0}" fill="#E3B83A" opacity="0.92"/><rect x="${dx + dw - pw}" y="${dy0}" width="${pw}" height="${dy1 - dy0}" fill="#E3B83A" opacity="0.92"/>`;
+    if (pw > 12) s += `<rect x="${dx + 4}" y="${dy0 + 10}" width="${pw - 8}" height="${(dy1 - dy0) * 0.45}" fill="#1A2230"/><rect x="${dx + dw - pw + 4}" y="${dy0 + 10}" width="${pw - 8}" height="${(dy1 - dy0) * 0.45}" fill="#1A2230"/>`;
+    s += `<rect x="${dx - 20}" y="${dy0 - 2}" width="18" height="26" fill="#C8463A"/><text x="${dx - 11}" y="${dy0 + 16}" text-anchor="middle" font-family="Arial" font-weight="900" font-size="9" fill="#fff">STOP</text>`;
+    s += `<rect x="${ex0 + 14}" y="${E.floor - 70}" width="16" height="44" rx="6" fill="#C8463A"/><rect x="${ex0 + 17}" y="${E.floor - 78}" width="10" height="10" fill="#2A2D33"/>`;
+    s += `<text x="${vx}" y="${E.ceil - 6}" text-anchor="middle" font-family="Arial" font-weight="800" font-size="13" fill="#3A3326">ROUTE 9 · CEDAR FALLS SCHOOLS · NO STANDING</text>`;
+  } else {
+    s += `<rect x="${ex0 + 20}" y="${E.ceil + 20}" width="${ex1 - ex0 - 40}" height="${(E.floor - E.ceil) * 0.4}" rx="8" fill="url(#bsWinN)"/>`;
+    s += `<rect x="${vx - 34}" y="${E.ceil + 30}" width="68" height="${(E.floor - E.ceil) * 0.75}" fill="#9A9076"/><text x="${vx}" y="${E.ceil + 46}" text-anchor="middle" font-family="Arial" font-weight="900" font-size="9" fill="#C8463A">EMERGENCY EXIT</text>`;
+    if (o.poster !== false) { const px = ex0 + 26, py = E.ceil + 26; s += `<g transform="rotate(-3 ${px + 40} ${py + 50})"><rect x="${px}" y="${py}" width="84" height="104" fill="#E8E0C4" opacity="0.92"/><text x="${px + 42}" y="${py + 16}" text-anchor="middle" font-family="Arial" font-weight="900" font-size="13" fill="#2A2420">MISSING</text><rect x="${px + 22}" y="${py + 22}" width="40" height="44" fill="#8E8A80"/><ellipse cx="${px + 42}" cy="${py + 40}" rx="11" ry="12" fill="#2A2D33"/><text x="${px + 42}" y="${py + 80}" text-anchor="middle" font-family="Arial" font-weight="800" font-size="9" fill="#2A2420">TESS HALE, 12</text><text x="${px + 42}" y="${py + 93}" text-anchor="middle" font-family="Arial" font-size="7" fill="#4A4038">ROUTE 9 · 1998</text></g>`; }
+    s += `<rect x="${ex0 + 10}" y="${E.floor - 120}" width="${ex1 - ex0 - 20}" height="110" rx="10" fill="#2F6B4F"/><rect x="${ex0 + 10}" y="${E.floor - 36}" width="${ex1 - ex0 - 20}" height="26" rx="6" fill="#255840"/>`; // back bench
+  }
+  // walls, ceiling, floor between depths (far -> near)
+  for (let k = fs.length - 1; k >= 0; k--) {
+    const f0 = k === fs.length - 1 ? fEnd : fs[k + 1], f1 = fs[k], A = busP(f0), B2 = busP(f1);
+    const wl0 = vx - A.wall, wl1 = vx - B2.wall, wr0 = vx + A.wall, wr1 = vx + B2.wall;
+    s += quad([wl0, A.ceil], [wl1, B2.ceil], [wr1, B2.ceil], [wr0, A.ceil], 'url(#bsCeil)'); // ceiling
+    s += quad([wl0, A.floor], [wl1, B2.floor], [wr1, B2.floor], [wr0, A.floor], '#4A4A46'); // floor
+    s += quad([vx - A.aisle, A.floor], [vx - B2.aisle, B2.floor], [vx + B2.aisle, B2.floor], [vx + A.aisle, A.floor], '#34332F');
+    for (const side of [-1, 1]) { // walls with windows
+      const w0 = vx + side * A.wall, w1 = vx + side * B2.wall;
+      s += quad([w0, A.ceil], [w1, B2.ceil], [w1, B2.floor], [w0, A.floor], side < 0 ? '#CFC4A6' : '#BFB496');
+      const wy = f => [BUS.vy - 300 * f, BUS.vy - 40 * f];
+      const [ta, ba] = wy(f0), [tb, bb] = wy(f1), m0 = w0 + (w1 - w0) * 0.08, m1 = w0 + (w1 - w0) * 0.92;
+      const yAt = (x, f) => x; // straight
+      s += quad([m0, ta + (tb - ta) * 0.08], [m1, ta + (tb - ta) * 0.92], [m1, ba + (bb - ba) * 0.92], [m0, ba + (bb - ba) * 0.08], 'url(#bsWinN)');
+      const mid = (m0 + m1) / 2; s += `<line x1="${mid}" y1="${ta + (tb - ta) * 0.5}" x2="${mid}" y2="${ba + (bb - ba) * 0.5}" stroke="#9A9076" stroke-width="${6 * f1}"/><line x1="${m0}" y1="${(ta + ba) / 2 + (tb - ta) * 0.05}" x2="${m1}" y2="${(tb + bb) / 2 - (tb - ta) * 0.05}" stroke="#9A9076" stroke-width="${3 * f1}" opacity="0.6"/>`;
+      for (let i = 0; i < 7; i++) { const dx2 = m0 + (m1 - m0) * hash(k * 17 + i * 5 + side), dy2 = ta + (ba - ta) * hash(k * 11 + i * 3 + side * 2); s += `<circle cx="${dx2}" cy="${dy2}" r="${(2 + 3 * hash(i + k)) * f1}" fill="#B8CCE0" opacity="0.35"/>`; }
+      for (let i = 0; i < 4; i++) { const rx = m0 + (m1 - m0) * hash(k * 9 + i + side), ry0 = ta + (ba - ta) * ((t * 0.7 + hash(k + i * 3)) % 1); s += `<line x1="${rx}" y1="${ry0}" x2="${rx + side * 2}" y2="${ry0 + 14 * f1}" stroke="#8FA6C0" stroke-width="${1.2 * f1 + 0.5}" opacity="0.55"/>`; }
+      if (o.passLights) { const lx = m0 + (m1 - m0) * (((t * 0.9 + k * 0.37) % 1)); s += `<circle cx="${lx}" cy="${(ta + ba) / 2}" r="${10 * f1}" fill="#FFE3A3" opacity="0.35"/>`; }
+    }
+    // ceiling lamp strip + grab rail
+    const lc = (A.ceil + B2.ceil) / 2;
+    if (k === 3) s += `<rect x="${vx - 110 * f1}" y="${lc - 14 * f1}" width="${220 * f1}" height="${26 * f1}" rx="${4 * f1}" fill="#C8BC9C" stroke="#9A9076" stroke-width="${3 * f1}"/><text x="${vx}" y="${lc + 4 * f1}" text-anchor="middle" font-family="Arial" font-weight="800" font-size="${11 * f1}" fill="#C8463A">EMERGENCY ESCAPE</text>`;
+    if (k === 5) s += `<circle cx="${vx + 150 * f1}" cy="${lc}" r="${16 * f1}" fill="#8E8670"/><circle cx="${vx + 150 * f1}" cy="${lc}" r="${10 * f1}" fill="#5E5848"/>`;
+    s += `<rect x="${vx - 40 * f1}" y="${lc - 4 * f1}" width="${80 * f1}" height="${10 * f1}" rx="${4 * f1}" fill="${L > 0.5 ? '#FFF1C2' : '#6E6858'}"/>`;
+  }
+  // seats (far -> near), both sides
+  for (let k = fs.length - 1; k >= 1; k--) {
+    const f = fs[k], P = busP(f), back = 300 * f, depth = 0.11;
+    for (const side of [-1, 1]) {
+      const xa = vx + side * P.aisle, xw = vx + side * (P.wall - 30 * f);
+      const x0 = Math.min(xa, xw), w = Math.abs(xw - xa);
+      s += `<rect x="${x0}" y="${P.floor - back}" width="${w}" height="${back * 0.62}" rx="${18 * f}" fill="#2F6B4F"/><rect x="${x0}" y="${P.floor - back}" width="${w}" height="${16 * f}" rx="${8 * f}" fill="#3D8462"/><rect x="${x0 + w * 0.06}" y="${P.floor - back * 0.4}" width="${w * 0.88}" height="${back * 0.12}" fill="#255840"/>`;
+      s += `<rect x="${x0}" y="${P.floor - back * 0.38}" width="${w}" height="${back * 0.38}" fill="#1E1F1E" opacity="0.6"/>`;
+      s += `<rect x="${x0 + 4 * f}" y="${P.floor - back - 6 * f}" width="${w - 8 * f}" height="${7 * f}" rx="${3 * f}" fill="#C9CED4"/><rect x="${side < 0 ? x0 + w - 26 * f : x0 + 10 * f}" y="${P.floor - back - 16 * f}" width="${16 * f}" height="${12 * f}" rx="${4 * f}" fill="none" stroke="#C9CED4" stroke-width="${3 * f}"/>`;
+      if (!o.noBags && hash(k * 13 + side * 7) > 0.62) { const bx2 = x0 + w * (0.25 + 0.4 * hash(k + side)), bc = ['#B5563A', '#2F5A8A', '#7A5A9C', '#C9A13A'][Math.floor(hash(k * 3 + side) * 4)]; s += `<rect x="${bx2}" y="${P.floor - back * 0.6}" width="${70 * f}" height="${90 * f}" rx="${16 * f}" fill="${bc}"/><rect x="${bx2 + 10 * f}" y="${P.floor - back * 0.6 + 40 * f}" width="${50 * f}" height="${30 * f}" rx="${8 * f}" fill="#000" opacity="0.18"/>`; }
+      if (o.puddle === k) s += `<ellipse cx="${x0 + w / 2}" cy="${P.floor - back * 0.4}" rx="${w * 0.3}" ry="${9 * f}" fill="#7FA3BE" opacity="0.55"/>`;
+    }
+  }
+  // background kids (heads above seat backs): [side, row]
+  for (const [side, row, col] of (o.kids || [])) { const f = fs[row], P = busP(f), x = vx + side * (P.aisle + (P.wall - P.aisle) * 0.45), y = P.floor - 300 * f - 34 * f; s += `<g opacity="0.92"><circle cx="${x}" cy="${y}" r="${40 * f}" fill="#16181C"/><circle cx="${x - 12 * f}" cy="${y - 4 * f}" r="${6 * f}" fill="#fff"/><circle cx="${x + 12 * f}" cy="${y - 4 * f}" r="${6 * f}" fill="#fff"/><rect x="${x - 50 * f}" y="${y + 36 * f}" width="${100 * f}" height="${30 * f}" rx="${12 * f}" fill="${col || '#5A6E86'}"/></g>`; }
+  // light: warm glow from lamps, blue cold from windows, flicker/dark
+  s += `<rect width="1600" height="900" fill="#0A0C12" opacity="${(1 - L) * 0.62 + 0.30}"/>`;
+  s += `<rect width="1600" height="900" fill="url(#bsLamp)" opacity="${0.28 * L}"/>`;
+  s += `<rect width="1600" height="900" fill="#3A2A10" opacity="${0.10 * L}"/>`;
+  s += `<rect width="1600" height="900" fill="url(#bsVig)"/>`;
+  if (L < 0.5) s += `<rect width="1600" height="900" fill="#020306" opacity="${(0.5 - L) * 0.6}"/>`;
+  if (L < 0.5) s += `<rect width="1600" height="900" fill="#2A4466" opacity="${0.16 * (1 - L)}"/>`;
+  return s;
+};
+
+SETS.hollowRoad = (t, o) => {
+  let s = busDefs() + `<rect width="1600" height="900" fill="url(#bsSky)"/>`;
+  // tree line silhouettes
+  for (let i = 0; i < 26; i++) { const x = i * 66 - 20, h = 140 + hash(i * 2.3) * 120; s += `<path d="M${x} 560 L${x + 34} ${560 - h} L${x + 68} 560 Z" fill="#0B1018"/>`; }
+  s += `<rect x="0" y="555" width="1600" height="345" fill="#0E1218"/>`;
+  for (let i = 0; i < 4; i++) { const px = 120 + i * 470; s += `<rect x="${px}" y="300" width="9" height="360" fill="#0B0E13"/><rect x="${px - 34}" y="318" width="77" height="7" fill="#0B0E13"/>`; }
+  s += `<path d="M0 330 Q355 360 590 322 Q825 360 1060 322 Q1295 360 1530 322 L1600 330" stroke="#0B0E13" stroke-width="2" fill="none"/>`;
+  for (let i = 0; i < 22; i++) s += `<rect x="${i * 76}" y="612" width="7" height="40" fill="#2A2F36"/><rect x="${i * 76 - 2}" y="616" width="11" height="5" fill="#C8463A" opacity="0.55"/>`;
+  s += `<rect x="0" y="618" width="1600" height="9" fill="#3A4048"/>`;
+  s += `<rect x="0" y="650" width="1600" height="250" fill="#1A1E24"/><rect x="0" y="650" width="1600" height="6" fill="#2C3138"/>`; // road
+  for (let i = 0; i < 9; i++) s += `<rect x="${i * 200 + 40}" y="800" width="110" height="9" fill="#C9B24A" opacity="0.45"/>`;
+  for (let i = 0; i < 40; i++) s += `<ellipse cx="${hash(i * 4.1) * 1600}" cy="${670 + hash(i * 2.7) * 220}" rx="${20 + hash(i) * 40}" ry="3" fill="#8FA6C0" opacity="0.10"/>`; // wet reflections
+  // lamp
+  const lf = o.lampFlick && hash(Math.floor(t * 12)) < 0.2 ? 0.3 : 1;
+  s += `<rect x="236" y="250" width="10" height="330" fill="#20252B"/><path d="M241 252 Q241 236 270 236 L300 236" stroke="#20252B" stroke-width="8" fill="none"/><ellipse cx="300" cy="244" rx="20" ry="8" fill="#FFE3A3" opacity="${lf}"/>`;
+  s += `<path d="M300 250 L180 640 L440 640 Z" fill="#FFE3A3" opacity="${0.12 * lf}"/><ellipse cx="310" cy="640" rx="160" ry="26" fill="#FFE3A3" opacity="${0.1 * lf}"/>`;
+  // bus (3/4 side, front to the right)
+  if (!o.noBus) {
+    const bx = 300, by = 420, bw = 900, bh = 260, op = busDoor(t, o);
+    s += `<ellipse cx="${bx + bw / 2}" cy="${by + bh + 50}" rx="${bw * 0.55}" ry="26" fill="#000" opacity="0.5"/>`;
+    s += `<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="26" fill="#D9A21C"/><rect x="${bx}" y="${by + bh * 0.62}" width="${bw}" height="10" fill="#1E1F22"/><rect x="${bx}" y="${by + bh * 0.8}" width="${bw}" height="8" fill="#1E1F22"/>`;
+    s += `<text x="${bx + 70}" y="${by + bh * 0.75}" font-family="Arial" font-weight="900" font-size="30" fill="#1E1F22">9</text>`;
+    for (let i = 0; i < 6; i++) s += `<circle cx="${bx + 40 + i * 160}" cy="${by + 8}" r="6" fill="#FFB347" opacity="${0.6 + 0.4 * (Math.sin(t * 3 + i) > 0 ? 1 : 0)}"/>`;
+    s += `<text x="${bx + 330}" y="${by + bh * 0.75}" text-anchor="middle" font-family="Arial" font-weight="900" font-size="26" fill="#1E1F22">SCHOOL BUS</text>`;
+    for (let i = 0; i < 8; i++) { const wx = bx + 30 + i * 96; s += `<rect x="${wx}" y="${by + 26}" width="80" height="90" rx="6" fill="#FFD98A" opacity="0.9"/><rect x="${wx}" y="${by + 26}" width="80" height="90" rx="6" fill="#B07A38" opacity="0.35"/>`; if ([1, 3, 4, 6].includes(i)) s += `<circle cx="${wx + 40}" cy="${by + 88}" r="18" fill="#16181C"/>`; }
+    // front + door (right end)
+    const fx = bx + bw - 10; s += `<path d="M${fx} ${by + 20} L${fx + 120} ${by + 70} L${fx + 120} ${by + bh} L${fx} ${by + bh} Z" fill="#C8921A"/><rect x="${fx + 10}" y="${by + 70}" width="96" height="70" fill="#1A2230"/>`;
+    s += `<rect x="${fx - 92}" y="${by + 20}" width="80" height="${bh - 22}" fill="#FFD98A"/>`; // door frame lit
+    s += `<path d="M${fx + 118} ${by + 40} L${fx + 160} ${by + 30} L${fx + 160} ${by + 90}" stroke="#1E1F22" stroke-width="5" fill="none"/><rect x="${fx + 150}" y="${by + 60}" width="22" height="40" rx="4" fill="#2A2F36"/>`;
+    const pw = 40 * (1 - op * 0.85); s += `<rect x="${fx - 92}" y="${by + 20}" width="${pw}" height="${bh - 22}" fill="#1A2230"/><rect x="${fx - 12 - pw}" y="${by + 20}" width="${pw}" height="${bh - 22}" fill="#1A2230"/>`;
+    if (op > 0) s += `<path d="M${fx - 92} ${by + bh} L${fx - 12} ${by + bh} L${fx + 60} ${by + bh + 120} L${fx - 170} ${by + bh + 120} Z" fill="#FFD98A" opacity="${0.18 * op}"/>`;
+    s += `<rect x="${bx - 40}" y="${by + 80}" width="44" height="44" rx="6" fill="#C8463A"/><text x="${bx - 18}" y="${by + 108}" text-anchor="middle" font-family="Arial" font-weight="900" font-size="13" fill="#fff">STOP</text>`;
+    s += `<path d="M${fx + 120} ${by + bh - 40} L1600 ${by + bh - 120} L1600 ${by + bh + 60} Z" fill="#FFF2C4" opacity="0.10"/><circle cx="${fx + 112}" cy="${by + bh - 40}" r="14" fill="#FFF2C4"/>`;
+    // tires
+    for (const tx of [bx + 160, bx + bw - 160]) s += `<circle cx="${tx}" cy="${by + bh + 8}" r="48" fill="#121315"/><circle cx="${tx}" cy="${by + bh + 8}" r="20" fill="#3A3D42"/>`;
+  }
+  // woman silhouette in fog (never clear)
+  if (o.figure) s += `<ellipse cx="1420" cy="640" rx="190" ry="230" fill="#8FA2B4" opacity="${0.22 * o.figure}" filter="url(#b20)"/>`;
+  if (o.figure) s += `<g opacity="${o.figure * (0.55 + 0.1 * Math.sin(t * 1.7))}" filter="url(#b6)"><ellipse cx="1420" cy="560" rx="24" ry="27" fill="#05070B"/><path d="M1388 590 Q1420 576 1452 590 L1468 760 L1372 760 Z" fill="#05070B"/><path d="M1390 612 L1360 560" stroke="#05070B" stroke-width="11" stroke-linecap="round"/></g>`;
+  // fog bands
+  for (let i = 0; i < 5; i++) { const y = 520 + i * 70, x = ((t * (12 + i * 4) + i * 300) % 2000) - 400; s += `<ellipse cx="${x + 600}" cy="${y}" rx="900" ry="${40 + i * 8}" fill="#8A9AAA" opacity="${0.07 + 0.02 * i}" filter="url(#b20)"/>`; }
+  s += `<rect width="1600" height="900" fill="#0A1A2E" opacity="0.18"/><rect width="1600" height="900" fill="url(#bsVig)"/>`;
+  return s;
+};
+
+// ifv_bus2.js - inserts, rule card and burned-in captions for the bus episode. Load after ifv_bus.js.
+// Shot set 'insB' with opts.kind: phoneText, mirror, clipboard, poster, puddle, feet, volcano.
+// shot.busRule = {t0, n, text, d}: red lower-third rule card. DATA.caps = [[t0, t1, text]]: captions (shot.noCaps hides).
+SETS.insB = (t, o) => {
+  const k = o.kind, t0 = o.t0 || 0; let s = busDefs();
+  const bg = c => `<rect width="1600" height="900" fill="${c}"/>`;
+  const vig = `<rect width="1600" height="900" fill="url(#bsVig)"/>`;
+  if (k === 'phoneText') { // o.msgs = [[t, 'me'|'mom', text]], o.typing = [t0,t1], o.who
+    s += bg('#14161C') + `<g transform="rotate(-4 800 450)"><rect x="540" y="60" width="520" height="800" rx="60" fill="#0B0C10"/><rect x="566" y="100" width="468" height="720" rx="38" fill="#F2F2F5"/><rect x="566" y="100" width="468" height="90" rx="38" fill="#E4E4EA"/><circle cx="800" cy="134" r="22" fill="#9AA0AA"/><text x="800" y="180" text-anchor="middle" font-family="Arial" font-weight="700" font-size="20" fill="#333">${o.who || 'Mom'}</text>`;
+    let y = 230;
+    for (const [mt, who, txt] of (o.msgs || [])) {
+      if (t < t0 + mt) continue;
+      const me = who === 'me', lines = txt.match(/.{1,24}(\s|$)/g) || [txt], h = 26 + lines.length * 30, w = 330, x = me ? 1010 - w : 590;
+      s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="${me ? '#2F7BF6' : '#E1E1E6'}"/>` + lines.map((ln, i) => `<text x="${x + 18}" y="${y + 36 + i * 30}" font-family="Arial" font-size="24" fill="${me ? '#fff' : '#111'}">${ln.trim()}</text>`).join('');
+      y += h + 14;
+    }
+    if (o.typing && t >= t0 + o.typing[0] && t < t0 + o.typing[1]) s += `<rect x="590" y="${y}" width="96" height="48" rx="22" fill="#E1E1E6"/>` + [0, 1, 2].map(i => `<circle cx="${614 + i * 24}" cy="${y + 24}" r="7" fill="#8A8A90" opacity="${Math.floor(t * 3) % 3 === i ? 1 : 0.4}"/>`).join('');
+    s += `</g><rect width="1600" height="900" fill="#0A1020" opacity="0.12"/>` + vig;
+  }
+  if (k === 'mirror') { // driver's eyes in the big mirror; o.look 'out' (toward the door) | 'you'
+    s += bg('#0E1420') + `<rect x="160" y="250" width="1280" height="400" rx="60" fill="#1E2228"/><rect x="190" y="280" width="1220" height="340" rx="44" fill="#3A4656"/><rect x="190" y="280" width="1220" height="340" rx="44" fill="#FFE3A3" opacity="0.10"/><path d="M260 300 L520 600" stroke="#fff" stroke-opacity="0.08" stroke-width="60"/>`;
+    const lx = o.look === 'you' ? 0 : 34;
+    for (const ex of [640, 960]) s += `<ellipse cx="${ex}" cy="450" rx="110" ry="${50 + 6 * Math.sin(t * 0.7)}" fill="#E8E2D4"/><circle cx="${ex + lx}" cy="452" r="38" fill="#16181C"/><circle cx="${ex + lx + 12}" cy="440" r="9" fill="#fff"/><path d="M${ex - 120} 395 Q${ex} 350 ${ex + 120} 395" stroke="#5A5048" stroke-width="16" fill="none"/>`;
+    s += `<rect x="760" y="140" width="80" height="120" fill="#1E2228"/>` + vig;
+  }
+  if (k === 'clipboard') { // driver's list; o.writeT writes MAX TURNER
+    s += bg('#2A2620') + `<g transform="rotate(5 800 450)"><rect x="470" y="90" width="660" height="760" rx="20" fill="#8A6A44"/><rect x="510" y="150" width="580" height="680" fill="#F4EFE2"/><rect x="720" y="70" width="160" height="70" rx="12" fill="#B8B4A8"/><text x="540" y="210" font-family="Arial" font-weight="900" font-size="30" fill="#2A2420">ROUTE 9 - LATE RUN</text>`;
+    ['OWEN PARK', 'J. ALVAREZ', 'P. SINGH', 'TESS HALE'].forEach((nm, i) => s += `<text x="560" y="${290 + i * 70}" font-family="Comic Sans MS, cursive" font-size="40" fill="#2A3A66">${nm}</text><line x1="540" y1="${300 + i * 70}" x2="1060" y2="${300 + i * 70}" stroke="#C9C2B0" stroke-width="2"/>`);
+    const wk = clamp((t - (t0 + (o.writeT || 0))) / 1.4, 0, 1);
+    s += `<text x="560" y="570" font-family="Comic Sans MS, cursive" font-size="40" fill="#2A3A66">${'MAX TURNER'.slice(0, Math.ceil(wk * 10))}</text>`;
+    if (wk > 0 && wk < 1) s += `<path d="M${560 + wk * 240} 560 l60 -160 l26 10 l-60 160 Z" fill="#C9A13A"/>`;
+    s += `</g><rect width="1600" height="900" fill="#FFE3A3" opacity="0.06"/>` + vig;
+  }
+  if (k === 'poster') { // MISSING poster close-up; o.half = half hidden behind a seat back
+    s += bg('#C9BE9E') + `<g transform="rotate(-3 800 450)"><rect x="470" y="90" width="660" height="760" fill="#E8E0C4"/><text x="800" y="210" text-anchor="middle" font-family="Arial" font-weight="900" font-size="110" fill="#2A2420">MISSING</text><rect x="620" y="250" width="360" height="330" fill="#8E8A80"/><circle cx="800" cy="390" r="90" fill="#2A2D33"/><circle cx="772" cy="380" r="13" fill="#fff"/><circle cx="828" cy="380" r="13" fill="#fff"/><path d="M700 470 Q800 440 900 470 L930 580 L670 580 Z" fill="#4F7F86"/>`;
+    s += `<text x="800" y="650" text-anchor="middle" font-family="Arial" font-weight="900" font-size="54" fill="#2A2420">TESS HALE, 12</text><text x="800" y="710" text-anchor="middle" font-family="Arial" font-size="34" fill="#4A4038">LAST SEEN: ROUTE 9 - HOLLOW RD</text><text x="800" y="770" text-anchor="middle" font-family="Arial" font-size="34" fill="#4A4038">OCTOBER 1998</text></g><rect width="1600" height="900" fill="#6A5A3A" opacity="0.18"/>`;
+    if (o.half) s += `<rect x="0" y="470" width="1600" height="430" fill="#2F6B4F"/><rect x="0" y="470" width="1600" height="24" fill="#C9CED4"/>`;
+    s += vig;
+  }
+  if (k === 'puddle') { // wet seat; o.coat = wet raincoat left on the seat
+    s += bg('#2F6B4F') + `<rect x="0" y="560" width="1600" height="340" fill="#255840"/><ellipse cx="800" cy="600" rx="420" ry="90" fill="#7FA3BE" opacity="0.55"/><ellipse cx="760" cy="590" rx="160" ry="22" fill="#fff" opacity="0.18"/>`;
+    for (let i = 0; i < 3; i++) { const kk = ((t - t0) * 0.6 + i / 3) % 1; s += `<ellipse cx="${700 + i * 90}" cy="600" rx="${30 + 120 * kk}" ry="${6 + 24 * kk}" fill="none" stroke="#C9DAF0" stroke-width="3" opacity="${0.6 * (1 - kk)}"/>`; }
+    if (o.coat) s += `<path d="M960 300 Q1100 320 1180 560 L900 560 Q880 420 960 300 Z" fill="#4F7F86"/><path d="M1000 330 Q1060 420 1060 560" stroke="#3A6268" stroke-width="10" fill="none"/>`;
+    s += `<rect width="1600" height="900" fill="#0A0C12" opacity="0.35"/>` + vig;
+  }
+  if (k === 'feet') { // sneakers lift off the floor at o.liftT; o.dark; o.slide = something sliding under the seats
+    const lk = clamp((t - (t0 + (o.liftT || 0))) / 0.5, 0, 1);
+    s += bg('#34332F') + `<rect x="0" y="0" width="1600" height="420" fill="#2F6B4F"/>`;
+    for (let i = 0; i < 16; i++) s += `<line x1="0" y1="${480 + i * 28}" x2="1600" y2="${480 + i * 28}" stroke="#2A2926" stroke-width="5"/>`;
+    if (o.slide) { const sx = ((t - t0) * 260) % 2200 - 400; s += `<path d="M${sx} 790 Q${sx + 200} 730 ${sx + 420} 800" stroke="#000" stroke-width="80" fill="none" opacity="0.75" filter="url(#b10)"/>`; }
+    for (const fx of [620, 980]) s += `<g transform="translate(${fx} ${720 - 300 * easeOut(lk)})"><rect x="-30" y="-400" width="60" height="400" fill="#16181C"/><path d="M-70 0 Q-80 -60 -20 -70 L60 -70 Q120 -60 130 0 Z" fill="#E8E2D4"/><rect x="-70" y="-10" width="200" height="22" rx="10" fill="#C8463A"/></g>`;
+    if (o.dark) s += `<rect width="1600" height="900" fill="#05070B" opacity="0.8"/>`;
+    s += vig;
+  }
+  if (k === 'volcano') {
+    s += bg('#3A4250') + `<rect x="0" y="620" width="1600" height="280" fill="#7A6A52"/><path d="M560 640 L760 300 L840 300 L1040 640 Z" fill="#8A5A3A"/><ellipse cx="800" cy="300" rx="44" ry="14" fill="#3A2416"/><path d="M780 300 q-20 60 -10 120 M820 300 q20 70 6 140" stroke="#C8463A" stroke-width="16" fill="none" opacity="0.8"/><rect x="980" y="420" width="220" height="150" fill="#F4EFE2"/><text x="1090" y="480" text-anchor="middle" font-family="Arial" font-weight="900" font-size="28" fill="#2A2420">PARTICIPANT</text><text x="1090" y="530" text-anchor="middle" font-family="Arial" font-size="22" fill="#7A7068">(again)</text>` + vig;
+  }
+  return s;
+};
+
+const _EScrBus = EXT_SCREEN;
+EXT_SCREEN = function (sh, t, o) {
+  let s = _EScrBus(sh, t, o);
+  const R = sh.busRule;
+  if (R && t >= R.t0 && t < R.t0 + (R.d || 2.2)) {
+    const d = R.d || 2.2, a = Math.min(clamp((t - R.t0) / 0.25, 0, 1), clamp((R.t0 + d - t) / 0.25, 0, 1));
+    s += `<g opacity="${a}" transform="translate(${-40 * (1 - a)} 0)"><rect x="70" y="120" width="${110 + R.text.length * 23}" height="74" rx="8" fill="#C8302A"/><rect x="70" y="120" width="12" height="74" fill="#FFD640"/><text x="100" y="172" font-family="Arial" font-weight="900" font-size="38" fill="#fff">RULE ${R.n}: ${R.text}</text></g>`;
+  }
+  if (typeof DATA !== 'undefined' && DATA.caps && !sh.noCaps) {
+    for (const [a, b, txt] of DATA.caps) if (t >= a && t < b) { s += `<text x="800" y="828" text-anchor="middle" font-family="Arial" font-weight="900" font-size="52" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round">${txt}</text>`; break; }
+  }
+  return s;
+};
 </script></body></html>
