@@ -26,6 +26,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('episode'); ap.add_argument('--t0', type=float); ap.add_argument('--t1', type=float)
 ap.add_argument('--parts', type=int, default=20); ap.add_argument('--res', default='1080')
 ap.add_argument('--prep-only', action='store_true')
+ap.add_argument('--no-mux', action='store_true', help='only download the video, add the audio later (e.g. while mix.py still runs)')
 a = ap.parse_args()
 EP = os.path.abspath(a.episode if os.path.isabs(a.episode) or os.path.exists(a.episode) else os.path.join(CH, 'Episodes', a.episode))
 cfg = json.load(open(os.path.join(EP, 'cloud_cfg.json'), encoding='utf-8'))
@@ -80,6 +81,8 @@ dl = os.path.join(EP, 'parts', 'cloud_' + stamp); os.makedirs(dl, exist_ok=True)
 run(GH, 'run', 'download', rid, '-R', url.split('/actions')[0], '-n', 'video_only', '-D', dl)
 vid = os.path.join(dl, 'video_only.mp4')
 mix = os.path.join(EP, 'mix_full.wav')
+if a.no_mux:
+    log('VIDEO ONLY (no audio added):', vid); sys.exit(0)
 if full:
     dst = os.path.join(CH, 'Final Videos'); os.makedirs(dst, exist_ok=True); dst = os.path.join(dst, cfg['final_name'])
     run('ffmpeg', '-v', 'error', '-y', '-i', vid, '-i', mix, '-map', '0:v', '-map', '1:a', '-c:v', 'copy',
