@@ -1,72 +1,1297 @@
 [
 {
-"id": "demo_F1",
-"speaker": "F1",
-"voice": "F1",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
+"id": "n01",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "For two years, you haven't seen the sky.",
 "speed": 1.05
 },
 {
-"id": "demo_F2",
-"speaker": "F2",
-"voice": "F2",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
-"speed": 1.05
-},
-{
-"id": "demo_F3",
-"speaker": "F3",
-"voice": "F3",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
-"speed": 1.05
-},
-{
-"id": "demo_F4",
-"speaker": "F4",
-"voice": "F4",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
-"speed": 1.05
-},
-{
-"id": "demo_F5",
-"speaker": "F5",
-"voice": "F5",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
-"speed": 1.05
-},
-{
-"id": "demo_M1",
-"speaker": "M1",
-"voice": "M1",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
-"speed": 1.05
-},
-{
-"id": "demo_M2",
-"speaker": "M2",
+"id": "n02",
+"speaker": "Narrator",
 "voice": "M2",
 "text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
 "speed": 1.05
 },
 {
-"id": "demo_M3",
-"speaker": "M3",
-"voice": "M3",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
+"id": "n03",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Not yet.",
 "speed": 1.05
 },
 {
-"id": "demo_M4",
-"speaker": "M4",
-"voice": "M4",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
+"id": "n04",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Today, the note changed.",
 "speed": 1.05
 },
 {
-"id": "demo_M5",
-"speaker": "M5",
+"id": "n05",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Two years ago, the rain turned green. And everyone it touched... stopped answering.",
+"speed": 1.05
+},
+{
+"id": "l01",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Max... who's been leaving the boxes?",
+"speed": 1.05
+},
+{
+"id": "m01",
+"speaker": "Max",
+"voice": "M1",
+"text": "I don't know.",
+"speed": 1.05
+},
+{
+"id": "n06",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Someone up there has fed you every month for two years. And today... they want you to come out.",
+"speed": 1.05
+},
+{
+"id": "c01",
+"speaker": "Crane",
 "voice": "M5",
-"text": "Every month, a box shows up on the hatch. Food. Water filters. And a note. Always the same two words.",
+"text": "Ladies and gentlemen... the cleanest power in America! Crane Power. Tomorrow, the switch goes on!",
+"speed": 1.05
+},
+{
+"id": "a01",
+"speaker": "Anchor",
+"voice": "F3",
+"text": "Billionaire Victor Crane says the new plant will power three states.",
+"speed": 1.05
+},
+{
+"id": "n07",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Your dad helped build that plant. Normally he'd be yelling 'that's my valve!' at the TV.",
+"speed": 1.05
+},
+{
+"id": "n08",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Tonight, he hasn't touched his food.",
+"speed": 1.05
+},
+{
+"id": "m02",
+"speaker": "Max",
+"voice": "M1",
+"text": "Dad. You okay?",
+"speed": 1.05
+},
+{
+"id": "d01",
+"speaker": "Dad",
+"voice": "M4",
+"text": "Hm? Yeah, bud. Long day.",
+"speed": 1.05
+},
+{
+"id": "n09",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Your mom is a nurse. She's on the night shift, so she sings Lily to sleep over the phone.",
+"speed": 1.05
+},
+{
+"id": "o01",
+"speaker": "Mom",
+"voice": "F1",
+"text": "Little light, little light... stay with me tonight.",
+"speed": 1.05
+},
+{
+"id": "l02",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Again.",
+"speed": 1.05
+},
+{
+"id": "o02",
+"speaker": "Mom",
+"voice": "F1",
+"text": "That's three times, missy. Goodnight. Max, you're in charge.",
+"speed": 1.05
+},
+{
+"id": "n10",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Your dad puts a note in your lunch bag for tomorrow. Same as every day. 'Good luck, bud.' With a little star drawn inside the O.",
+"speed": 1.05
+},
+{
+"id": "n11",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Then he does something he has never done.",
+"speed": 1.05
+},
+{
+"id": "d02",
+"speaker": "Dad",
+"voice": "M4",
+"text": "Max. Look at me.",
+"speed": 1.05
+},
+{
+"id": "d03",
+"speaker": "Dad",
+"voice": "M4",
+"text": "If the rain ever turns green... you take Lily to Grandpa's bunker. You close the hatch. And you don't open it for anybody.",
+"speed": 1.05
+},
+{
+"id": "m03",
+"speaker": "Max",
+"voice": "M1",
+"text": "Green? Dad, what are you...",
+"speed": 1.05
+},
+{
+"id": "d04",
+"speaker": "Dad",
+"voice": "M4",
+"text": "Promise me. And don't wait for us.",
+"speed": 1.05
+},
+{
+"id": "m04",
+"speaker": "Max",
+"voice": "M1",
+"text": "Okay. I promise.",
+"speed": 1.05
+},
+{
+"id": "n12",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "He hangs a key around your neck. On a red string.",
+"speed": 1.05
+},
+{
+"id": "n13",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Most dads just say 'drive safe.'",
+"speed": 1.05
+},
+{
+"id": "n14",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The next day, the switch goes on at noon.",
+"speed": 1.05
+},
+{
+"id": "n15",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "At three ten, you're walking Lily home and arguing about whether a hot dog is a sandwich.",
+"speed": 1.05
+},
+{
+"id": "l03",
+"speaker": "Lily",
+"voice": "F2",
+"text": "It's a taco. It's bread on one side.",
+"speed": 1.05
+},
+{
+"id": "m05",
+"speaker": "Max",
+"voice": "M1",
+"text": "That's not how tacos work!",
+"speed": 1.05
+},
+{
+"id": "n16",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "At three twelve... the sky changes color.",
+"speed": 1.05
+},
+{
+"id": "l04",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Max. Why is the sky green?",
+"speed": 1.05
+},
+{
+"id": "n17",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The clouds over the plant are glowing. Like a soda can held up to the sun.",
+"speed": 1.05
+},
+{
+"id": "n18",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "A bird drops off the power line. It doesn't flap. It just... drops.",
+"speed": 1.05
+},
+{
+"id": "m06",
+"speaker": "Max",
+"voice": "M1",
+"text": "Lily. Hold my hand.",
+"speed": 1.05
+},
+{
+"id": "l05",
+"speaker": "Lily",
+"voice": "F2",
+"text": "What's wrong?",
+"speed": 1.05
+},
+{
+"id": "n19",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The first drop hits the sidewalk. It hisses. The grass next to it turns black.",
+"speed": 1.05
+},
+{
+"id": "m07",
+"speaker": "Max",
+"voice": "M1",
+"text": "Run!",
+"speed": 1.05
+},
+{
+"id": "n20",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Four houses. Three. Mrs. Patel is standing in her yard, looking up, smiling, holding out her hand to catch it.",
+"speed": 1.05
+},
+{
+"id": "m08",
+"speaker": "Max",
+"voice": "M1",
+"text": "Mrs. Patel! Get inside!",
+"speed": 1.05
+},
+{
+"id": "l06",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Mister Buttons! I dropped Mister Buttons!",
+"speed": 1.05
+},
+{
+"id": "m09",
+"speaker": "Max",
+"voice": "M1",
+"text": "Leave him! Lily, leave him!",
+"speed": 1.05
+},
+{
+"id": "n21",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The backyard. The hatch. The key on the red string. Your hands are shaking so hard it takes three tries.",
+"speed": 1.05
+},
+{
+"id": "n22",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The rain hits the lid one second after it closes.",
+"speed": 1.05
+},
+{
+"id": "n23",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Grandpa built this bunker in nineteen sixty-two, for a war that never came.",
+"speed": 1.05
+},
+{
+"id": "n24",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "He stocked it like he expected the war to last forever. Four hundred cans of beans. One can opener.",
+"speed": 1.05
+},
+{
+"id": "l07",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Is Mom coming?",
+"speed": 1.05
+},
+{
+"id": "m10",
+"speaker": "Max",
+"voice": "M1",
+"text": "Yeah. Yeah, they're coming. They're just... waiting for the rain to stop.",
+"speed": 1.05
+},
+{
+"id": "a02",
+"speaker": "Anchor",
+"voice": "F3",
+"text": "A toxic weather event over the tri-state area. Residents are told to stay indoors.",
+"speed": 1.05
+},
+{
+"id": "c02",
+"speaker": "Crane",
+"voice": "M5",
+"text": "This is Victor Crane. Please don't panic. This is a temporary event. Crane Power has everything under control.",
+"speed": 1.05
+},
+{
+"id": "n25",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "People who have everything under control don't usually say it twice.",
+"speed": 1.05
+},
+{
+"id": "c03",
+"speaker": "Crane",
+"voice": "M5",
+"text": "Everything is under control.",
+"speed": 1.05
+},
+{
+"id": "n26",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "At nine forty that night, your phone finds one bar. One voicemail.",
+"speed": 1.05
+},
+{
+"id": "o03",
+"speaker": "Mom",
+"voice": "F1",
+"text": "Max, it's Mom. I'm at the hospital, they're bringing in so many people. Don't go outside. Whatever happens, keep her...",
+"speed": 1.05
+},
+{
+"id": "n27",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Then the bar is gone.",
+"speed": 1.05
+},
+{
+"id": "l08",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Play it again.",
+"speed": 1.05
+},
+{
+"id": "n28",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You play it again. And again. Until the battery dies.",
+"speed": 1.05
+},
+{
+"id": "j01",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "Max! Max, you there? Over!",
+"speed": 1.05
+},
+{
+"id": "m11",
+"speaker": "Max",
+"voice": "M1",
+"text": "Jayden?! You're alive!",
+"speed": 1.05
+},
+{
+"id": "j02",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "I'm in the attic. My mom's stuck at work. Dude, the whole street looks like a sci-fi movie. Over.",
+"speed": 1.05
+},
+{
+"id": "n29",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Jayden lives four houses down. Every night, he climbs to his attic window and counts the houses with lights on.",
+"speed": 1.05
+},
+{
+"id": "j03",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "Eleven lights. Over.",
+"speed": 1.05
+},
+{
+"id": "n30",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Day four.",
+"speed": 1.05
+},
+{
+"id": "j04",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "Six lights left on our street. Over.",
+"speed": 1.05
+},
+{
+"id": "n31",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Day nine.",
+"speed": 1.05
+},
+{
+"id": "j05",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "Two. Yours and mine. Over.",
+"speed": 1.05
+},
+{
+"id": "n32",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Day twelve.",
+"speed": 1.05
+},
+{
+"id": "j06",
+"speaker": "Jayden",
+"voice": "M3",
+"text": "Max... my battery's almost dead. If you get out... tell my mom I was brave, okay? Even if I wasn't.",
+"speed": 1.05
+},
+{
+"id": "m12",
+"speaker": "Max",
+"voice": "M1",
+"text": "Jayden. Jayden, don't...",
+"speed": 1.05
+},
+{
+"id": "n33",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You keep the walkie on for a week. It never says another word.",
+"speed": 1.05
+},
+{
+"id": "n34",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Then, on day thirty, something knocks on the hatch.",
+"speed": 1.05
+},
+{
+"id": "n35",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Three knocks. Then footsteps... walking away.",
+"speed": 1.05
+},
+{
+"id": "l09",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Is it Mom?",
+"speed": 1.05
+},
+{
+"id": "n36",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You check Grandpa's periscope. There's no one there. Just a wooden box.",
+"speed": 1.05
+},
+{
+"id": "n37",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You wait until the rain stops. Then you open the hatch just wide enough to pull it in.",
+"speed": 1.05
+},
+{
+"id": "m13",
+"speaker": "Max",
+"voice": "M1",
+"text": "Food. Water filters. Batteries...",
+"speed": 1.05
+},
+{
+"id": "l10",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Mister Buttons!",
+"speed": 1.05
+},
+{
+"id": "n38",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The rabbit she dropped in the street. Washed. Clean. It smells like soap.",
+"speed": 1.05
+},
+{
+"id": "n39",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Someone walked into your yard... in the poison rain... and picked him up.",
+"speed": 1.05
+},
+{
+"id": "m14",
+"speaker": "Max",
+"voice": "M1",
+"text": "There's a note. 'Not yet.'",
+"speed": 1.05
+},
+{
+"id": "l11",
+"speaker": "Lily",
+"voice": "F2",
+"text": "It's Mom. I know it's Mom.",
+"speed": 1.05
+},
+{
+"id": "n40",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "But then you see the side of the box. A logo. A lightning bolt in a circle.",
+"speed": 1.05
+},
+{
+"id": "m15",
+"speaker": "Max",
+"voice": "M1",
+"text": "Crane Power.",
+"speed": 1.05
+},
+{
+"id": "n41",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The people who made the rain are the ones feeding you.",
+"speed": 1.05
+},
+{
+"id": "n42",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Every thirty days, three knocks. A box. Two words.",
+"speed": 1.05
+},
+{
+"id": "n43",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You learn the rules of the bunker the hard way. The water filter lasts nine days, not ten. Beans taste better cold, if you pretend they're chili.",
+"speed": 1.05
+},
+{
+"id": "l12",
+"speaker": "Lily",
+"voice": "F2",
+"text": "They don't.",
+"speed": 1.05
+},
+{
+"id": "n44",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "They don't.",
+"speed": 1.05
+},
+{
+"id": "n45",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Lily learns to read from the labels on the boxes. Her first word is 'perishable.' Her second word is 'Crane.'",
+"speed": 1.05
+},
+{
+"id": "l13",
+"speaker": "Lily",
+"voice": "F2",
+"text": "P, E, R, I... perishable!",
+"speed": 1.05
+},
+{
+"id": "n46",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "On day two hundred fourteen, there's something new at the bottom of the box.",
+"speed": 1.05
+},
+{
+"id": "m16",
+"speaker": "Max",
+"voice": "M1",
+"text": "A candle?",
+"speed": 1.05
+},
+{
+"id": "l14",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Max. Today's the ninth.",
+"speed": 1.05
+},
+{
+"id": "n47",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Her birthday. Nobody in the world knows her birthday. Except family.",
+"speed": 1.05
+},
+{
+"id": "m17",
+"speaker": "Max",
+"voice": "M1",
+"text": "Make a wish.",
+"speed": 1.05
+},
+{
+"id": "l15",
+"speaker": "Lily",
+"voice": "F2",
+"text": "I wish whoever it is... could come inside.",
+"speed": 1.05
+},
+{
+"id": "n48",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Day two-sixty, the air alarm starts beeping.",
+"speed": 1.05
+},
+{
+"id": "n49",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Grandpa's air vent comes up behind the shed. Something is blocking it. And outside, it's raining.",
+"speed": 1.05
+},
+{
+"id": "l16",
+"speaker": "Lily",
+"voice": "F2",
+"text": "You can't go up there!",
+"speed": 1.05
+},
+{
+"id": "m18",
+"speaker": "Max",
+"voice": "M1",
+"text": "If I don't, we both stop breathing in about six hours.",
+"speed": 1.05
+},
+{
+"id": "n50",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Two raincoats. Six trash bags. Duct tape. Ski goggles. You look like a burrito going to war.",
+"speed": 1.05
+},
+{
+"id": "m19",
+"speaker": "Max",
+"voice": "M1",
+"text": "If I'm not back in ten minutes... lock the hatch.",
+"speed": 1.05
+},
+{
+"id": "l17",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Don't say that!",
+"speed": 1.05
+},
+{
+"id": "n51",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You climb out into the green.",
+"speed": 1.05
+},
+{
+"id": "n52",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The town is silent. Cars stopped in the middle of the road. Doors open. A soccer ball floating in a green puddle.",
+"speed": 1.05
+},
+{
+"id": "n53",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Vines have grown over the vent. You rip them out with both hands.",
+"speed": 1.05
+},
+{
+"id": "n54",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And then you see them in the mud. Boot prints. Big ones. Coming from your house... and going toward the plant.",
+"speed": 1.05
+},
+{
+"id": "n55",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "One drop finds the gap in your glove.",
+"speed": 1.05
+},
+{
+"id": "m20",
+"speaker": "Max",
+"voice": "M1",
+"text": "Ah!",
+"speed": 1.05
+},
+{
+"id": "n56",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You make it back down in eight minutes.",
+"speed": 1.05
+},
+{
+"id": "n57",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "By night, you're burning with fever.",
+"speed": 1.05
+},
+{
+"id": "l18",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Okay. Okay. The book says... keep the patient hydrated.",
+"speed": 1.05
+},
+{
+"id": "n58",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "For five days, your eight-year-old sister runs the bunker. She changes the filter. She rations the beans. She sings you Mom's song, off-key.",
+"speed": 1.05
+},
+{
+"id": "l19",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Little light, little light... stay with me tonight.",
+"speed": 1.05
+},
+{
+"id": "n59",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And on the second night, she does something brave. She writes a note, climbs the ladder, and sticks it on the outside of the hatch.",
+"speed": 1.05
+},
+{
+"id": "l20",
+"speaker": "Lily",
+"voice": "F2",
+"text": "My brother is sick. Please.",
+"speed": 1.05
+},
+{
+"id": "n60",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The next morning... there are no knocks. It's not day thirty. But there's a box.",
+"speed": 1.05
+},
+{
+"id": "l21",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Medicine!",
+"speed": 1.05
+},
+{
+"id": "n61",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And a different note. Written fast, like a hand that couldn't stop shaking.",
+"speed": 1.05
+},
+{
+"id": "l22",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Hold on.",
+"speed": 1.05
+},
+{
+"id": "n62",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "When your fever breaks, you read it yourself. And you see it.",
+"speed": 1.05
+},
+{
+"id": "n63",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "A little star... drawn inside the O.",
+"speed": 1.05
+},
+{
+"id": "m21",
+"speaker": "Max",
+"voice": "M1",
+"text": "Dad?",
+"speed": 1.05
+},
+{
+"id": "n64",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Lily says you're crazy. Dad would come inside. Dad would open the hatch.",
+"speed": 1.05
+},
+{
+"id": "l23",
+"speaker": "Lily",
+"voice": "F2",
+"text": "If it was Dad, why won't he come in?!",
+"speed": 1.05
+},
+{
+"id": "m22",
+"speaker": "Max",
+"voice": "M1",
+"text": "I don't know!",
+"speed": 1.05
+},
+{
+"id": "n65",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "So on day three hundred, you don't sleep. You sit at the periscope all night.",
+"speed": 1.05
+},
+{
+"id": "n66",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "At three A.M., a figure walks out of the rain.",
+"speed": 1.05
+},
+{
+"id": "n67",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Gas suit. Mask. A box in its arms. And on its back, the lightning bolt. Crane Power.",
+"speed": 1.05
+},
+{
+"id": "n68",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "It sets down the box. It puts a gloved hand flat on the hatch. And it just... stays there. For a long time.",
+"speed": 1.05
+},
+{
+"id": "m23",
+"speaker": "Max",
+"voice": "M1",
+"text": "That's not Dad.",
+"speed": 1.05
+},
+{
+"id": "l24",
+"speaker": "Lily",
+"voice": "F2",
+"text": "How do you know?",
+"speed": 1.05
+},
+{
+"id": "m24",
+"speaker": "Max",
+"voice": "M1",
+"text": "Because Dad would never wear that. Crane took him. And now Crane copies his notes to keep us down here. So we can't tell anyone what happened.",
+"speed": 1.05
+},
+{
+"id": "n69",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Lily doesn't answer. She just keeps holding Mister Buttons.",
+"speed": 1.05
+},
+{
+"id": "n70",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The second year is quieter.",
+"speed": 1.05
+},
+{
+"id": "n71",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Victor Crane's radio messages stop in March. Nobody says why.",
+"speed": 1.05
+},
+{
+"id": "n72",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You grow tomatoes under the lamp from seeds in box number eleven. Lily names every single one.",
+"speed": 1.05
+},
+{
+"id": "l25",
+"speaker": "Lily",
+"voice": "F2",
+"text": "That's Gerald. That's Big Gerald.",
+"speed": 1.05
+},
+{
+"id": "n73",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The tally marks fill one wall. Then a second.",
+"speed": 1.05
+},
+{
+"id": "n74",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You're fifteen now. Lily is ten. She doesn't remember what Mom's face looks like without the voicemail. So you tell her, every night.",
+"speed": 1.05
+},
+{
+"id": "m25",
+"speaker": "Max",
+"voice": "M1",
+"text": "She had a laugh like a hiccup. And she always smelled like hospital soap.",
+"speed": 1.05
+},
+{
+"id": "l26",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Like Mister Buttons did.",
+"speed": 1.05
+},
+{
+"id": "n75",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Twenty-three boxes. Twenty-three notes. 'Not yet.'",
+"speed": 1.05
+},
+{
+"id": "n76",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Until day seven thirty-one.",
+"speed": 1.05
+},
+{
+"id": "n77",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Now.",
+"speed": 1.05
+},
+{
+"id": "l27",
+"speaker": "Lily",
+"voice": "F2",
+"text": "What if it's a trick?",
+"speed": 1.05
+},
+{
+"id": "m26",
+"speaker": "Max",
+"voice": "M1",
+"text": "Then I want to see his face.",
+"speed": 1.05
+},
+{
+"id": "n78",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You open the hatch all the way. For the first time in two years.",
+"speed": 1.05
+},
+{
+"id": "n79",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The sky is blue.",
+"speed": 1.05
+},
+{
+"id": "n80",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The town is green, but the good kind. Vines on the stop signs. Grass through the road. A deer standing in the middle of Main Street like it pays rent.",
+"speed": 1.05
+},
+{
+"id": "l28",
+"speaker": "Lily",
+"voice": "F2",
+"text": "It's so... quiet.",
+"speed": 1.05
+},
+{
+"id": "n81",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And on every corner, drawn in white chalk... an arrow. With a star inside the O of the word 'this way.'",
+"speed": 1.05
+},
+{
+"id": "n82",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The arrows lead three miles. To the one building you never wanted to see again.",
+"speed": 1.05
+},
+{
+"id": "m27",
+"speaker": "Max",
+"voice": "M1",
+"text": "Crane Power.",
+"speed": 1.05
+},
+{
+"id": "n83",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The doors are welded shut, except one. Inside, it's warm. There's a hum. Someone has kept the lights on.",
+"speed": 1.05
+},
+{
+"id": "n84",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "In the control room, a man in a gas suit is standing at the window, looking at your town.",
+"speed": 1.05
+},
+{
+"id": "m28",
+"speaker": "Max",
+"voice": "M1",
+"text": "Where's my dad?!",
+"speed": 1.05
+},
+{
+"id": "n85",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "You're holding a pipe. You don't remember picking it up.",
+"speed": 1.05
+},
+{
+"id": "m29",
+"speaker": "Max",
+"voice": "M1",
+"text": "What did you do to my dad?!",
+"speed": 1.05
+},
+{
+"id": "n86",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "He takes off the mask.",
+"speed": 1.05
+},
+{
+"id": "n87",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Gray beard. Thin. Older than two years should make anyone.",
+"speed": 1.05
+},
+{
+"id": "d05",
+"speaker": "Dad",
+"voice": "M4",
+"text": "Hey, bud.",
+"speed": 1.05
+},
+{
+"id": "l29",
+"speaker": "Lily",
+"voice": "F2",
+"text": "Daddy!",
+"speed": 1.05
+},
+{
+"id": "d06",
+"speaker": "Dad",
+"voice": "M4",
+"text": "I tested the new gas for Crane. Three weeks before the launch. I told him it reacted with water vapor. I told him what it would do to rain.",
+"speed": 1.05
+},
+{
+"id": "d07",
+"speaker": "Dad",
+"voice": "M4",
+"text": "He told me to sign the safety report anyway. Or lose everything.",
+"speed": 1.05
+},
+{
+"id": "d08",
+"speaker": "Dad",
+"voice": "M4",
+"text": "And I signed it.",
+"speed": 1.05
+},
+{
+"id": "d09",
+"speaker": "Dad",
+"voice": "M4",
+"text": "The day it rained, I ran to the main valve. I shut it down by hand. The room sealed behind me. The doors are built to lock when the gas leaks.",
+"speed": 1.05
+},
+{
+"id": "d10",
+"speaker": "Dad",
+"voice": "M4",
+"text": "I had one suit. One filter a month. Enough for one trip. Enough to reach you, put down a box... and come back.",
+"speed": 1.05
+},
+{
+"id": "m30",
+"speaker": "Max",
+"voice": "M1",
+"text": "You were right there. Why didn't you come in?!",
+"speed": 1.05
+},
+{
+"id": "d11",
+"speaker": "Dad",
+"voice": "M4",
+"text": "Because opening that hatch, even for a second, would let the rain in. On you. On her.",
+"speed": 1.05
+},
+{
+"id": "d12",
+"speaker": "Dad",
+"voice": "M4",
+"text": "So I stood on top of it. Every month. And I wrote 'not yet.' Because every box was me saying sorry.",
+"speed": 1.05
+},
+{
+"id": "m31",
+"speaker": "Max",
+"voice": "M1",
+"text": "Where's Mom?",
+"speed": 1.05
+},
+{
+"id": "d13",
+"speaker": "Dad",
+"voice": "M4",
+"text": "She was at the hospital. I went there every month for a year. I never found her.",
+"speed": 1.05
+},
+{
+"id": "m32",
+"speaker": "Max",
+"voice": "M1",
+"text": "You told me not to wait for you.",
+"speed": 1.05
+},
+{
+"id": "d14",
+"speaker": "Dad",
+"voice": "M4",
+"text": "And you didn't. That's why she's alive.",
+"speed": 1.05
+},
+{
+"id": "n88",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The plant's old radio has been on for two years. Static. Every day. Nothing.",
+"speed": 1.05
+},
+{
+"id": "n89",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Today, it clicks.",
+"speed": 1.05
+},
+{
+"id": "s01",
+"speaker": "Shelter",
+"voice": "F4",
+"text": "This is Shelter Four. If anyone can hear us... we have forty survivors. We have food. Please...",
+"speed": 1.05
+},
+{
+"id": "n90",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And behind the voice, very quiet... someone is humming.",
+"speed": 1.05
+},
+{
+"id": "o04",
+"speaker": "Mom",
+"voice": "F1",
+"text": "Little light, little light... stay with me tonight.",
+"speed": 1.05
+},
+{
+"id": "l30",
+"speaker": "Lily",
+"voice": "F2",
+"text": "That's Mom.",
+"speed": 1.05
+},
+{
+"id": "n91",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "The rain kept you apart for two years. Now you have three miles of sunlight... and one radio signal.",
+"speed": 1.05
+},
+{
+"id": "n92",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "And Victor Crane is still out there somewhere.",
+"speed": 1.05
+},
+{
+"id": "n93",
+"speaker": "Narrator",
+"voice": "M2",
+"text": "Part two. What If You Found the Last Shelter?",
 "speed": 1.05
 }
 ]
